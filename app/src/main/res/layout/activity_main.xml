@@ -6,7 +6,10 @@
   android:layout_height="match_parent"
   tools:context="com.example.michaeldunn.webnav.MainActivity">
 
-
+  <WebView
+    android:id="@+id/webview"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
 
   <TextView
     android:id="@+id/top_nav"
@@ -14,6 +17,7 @@
     android:layout_height="wrap_content"
     android:background="#888888"
     android:padding="40dp"
+    android:visibility="invisible"
     android:text="Top Nav" />
 
   <TextView
@@ -22,12 +26,8 @@
     android:layout_height="wrap_content"
     android:background="#888888"
     android:padding="40dp"
+    android:visibility="invisible"
     android:layout_alignParentBottom="true"
     android:text="Bottom Nav" />
-
-  <WebView
-    android:id="@+id/webview"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
 
 </RelativeLayout>

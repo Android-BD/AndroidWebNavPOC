@@ -2,24 +2,26 @@
 <html>
 <head>
     <script>
-    Function.prototype.debounce = function(threshold){
-        var callback = this;
-        var timeout;
-        return function() {
-            var context = this, params = arguments;
-            window.clearTimeout(timeout);
-                timeout = window.setTimeout(function() {
-                callback.apply(context, params);
-            }, threshold);
+    (function(){
+        var isAtTop = null;
+        var isAtBottom = null;
+        var test = function(){
+            var latestIsAtTop = window.pageYOffset == 0;
+            var latestIsAtBottom = (window.innerHeight + window.pageYOffset) >= document.body.scrollHeight;
+            if(isAtTop !== latestIsAtTop || isAtBottom !== latestIsAtBottom){
+                isAtTop = latestIsAtTop;
+                isAtBottom = latestIsAtBottom;
+                report();
+            }
         };
-    };
-    var report = function(){
-        window.AndroidBridge.reportScroll(window.pageYOffset, window.innerHeight, document.body.offsetHeight);
-    };
-    var debouncedReport = report.debounce(100);
-    window.addEventListener('DOMContentLoaded', function(e){
-        window.addEventListener('scroll', debouncedReport);
-    });
+        var report = function(){
+            window.AndroidBridge.reportScrollToTermination(isAtTop, isAtBottom);
+        };
+        window.addEventListener('DOMContentLoaded', function(e){
+            test();
+            window.addEventListener('scroll', test);
+        });
+    })();
     function definePadding(topPadding, bottomPadding){
         document.body.style.paddingTop = topPadding + 'px';
         document.body.style.paddingBottom = bottomPadding + 'px';
